@@ -53,6 +53,20 @@ class Window:
         fish2_coord = text_fish2_coord.split(",")
         fish3_coord = text_fish3_coord.split(",")
 
+        # Draw start/move and quit button
+        self.move_button = Button(Point(7, 11.7), 1.5, 0.5, "Start")
+        self.quit_button = Button(Point(9, 11.7), 1.5, 0.5, "Quit")
+        self.move_button.activate()
+        self.quit_button.activate()
+        self.move_button.draw(self.win)
+        self.quit_button.draw(self.win)
+    
+    def clean_fish_coords(self):
+        # Set fish coord values
+        fish1_coord = self.text_fish1_coord.split(",")
+        fish2_coord = self.text_fish2_coord.split(",")
+        fish3_coord = self.text_fish3_coord.split(",")
+
         # Convert fish1_coord to integers
         self.fish1_coord_x = int(fish1_coord[0])
         self.fish1_coord_y = int(fish1_coord[1])
@@ -65,14 +79,15 @@ class Window:
         self.fish3_coord_x = int(fish3_coord[0])
         self.fish3_coord_y = int(fish3_coord[1])
 
-        # Draw start/move and quit button
-        self.move_button = Button(Point(7, 11.7), 1.5, 0.5, "Start")
-        self.quit_button = Button(Point(9, 11.7), 1.5, 0.5, "Quit")
-        self.move_button.activate()
-        self.quit_button.activate()
-        self.move_button.draw(self.win)
-        self.quit_button.draw(self.win)
-                
+    def get_fish1_coord(self):
+        return self.entry_fish1.getText()
+
+    def get_fish2_coord(self):
+        return self.entry_fish2.getText()
+
+    def get_fish3_coord(self):
+        return self.entry_fish3.getText()
+        
     def get_win(self):
         "Returns window for reference in main function"
         return self.win
@@ -83,6 +98,37 @@ class Window:
         obj.move(final_pt.getX() - initial_pt.getX(), final_pt.getY() - initial_pt.getY())
         obj.set_pos(final_pt)
         return obj
+    
+    def check_fish_input(self, fish1, fish2, fish3):
+    # Check if fish entry is valid
+    # Code for if it is the first move (start move)
+    # Return fish coords or prompt invalid coords
+    # Input validation
+        text_inputs = [fish1, fish2, fish3]
+        scanned_inputs = []  # List for processed inputs
+        invalid_inputs = []  # List for invalid inputs
+        error = False
+        for inpt in text_inputs:  # For each input, check if valid
+            if inpt in scanned_inputs:  # Check for duplicate inputs
+                error = True
+                # Append to invalid inputs
+                invalid_inputs.append(inpt + " (cannot input duplicate coords)")
+            elif len(inpt) != 3:  # Check length is 3 for coord
+                error = True
+                # Append to invalid inputs
+                invalid_inputs.append(inpt + " (incorrect length)")
+            elif not inpt[0].isdigit() or not inpt[2].isdigit():
+                # Check if x and y are numbers
+                error = True
+                invalid_inputs.append(inpt + " (is not a number)")
+            else:  # Valid input
+                scanned_inputs.append(inpt)
+
+        if error:  # If invalid, change instruction text
+            self.fish_instruction.setText("Invalid Input: " + str(invalid_inputs) + " Restart game with better inputs")
+            return True
+        else:
+            return False
 
     def get_click(self):
         """Check for a click on single button
@@ -95,45 +141,12 @@ class Window:
                     return "sharkmove"  # Return string "Shark Move" for future toggle use
                 elif self.move_button.getLabel() == "Move Fish":
                     return "fishmove"  # Return string "Fish Move" for future toggle use
-
-                # Check if fish entry is valid
-                # Code for if it is the first move (start move)
-                elif self.move_button.getLabel() == "Start":  # if first move
-                    while True:
-                        # Return fish coords or prompt invalid coords
-                        invalid_flag = False
-                        # Input validation
-                        text_inputs = [self.entry_fish1.getText(), self.entry_fish2.getText(), self.entry_fish3.getText()]
-                        scanned_inputs = [] # List for processed inputs
-                        invalid_inputs = [] # List for invalid inputs
-                        for inpt in text_inputs:  # For each input, check if valid
-                            if inpt in scanned_inputs: # Boolean algebra to check all input
-                                invalid_flag = True
-                                # Append to invalid inputs
-                                invalid_inputs.append(inpt + " (exists)")
-                                scanned_inputs.append(inpt)  # Append to processed inputs
-                                continue
-                            elif len(inpt) != 3:  # Check length is 3 for coord
-                                invalid_flag = True
-                                # Append to invalid inputs
-                                invalid_inputs.append(inpt + " (bad format)")
-                                scanned_inputs.append(inpt)  # App to scanned
-                            elif not (inpt[0].isdigit() and inpt[2].isdigit()):
-                                # Check if x and y are numbers
-                                invalid_flag = True
-                                invalid_inputs.append(inpt + " (not number)")
-                                scanned_inputs.append(inpt)  # App to scanned
-                            else:  # Valid input
-                                scanned_inputs.append(inpt)
-
-                        if invalid_flag == True:  # If invalid, change instruction text
-                            self.fish_instruction.setText("BAD INPUT: " + str(invalid_inputs))
-                        else:  # All tests passed
-                            self.fish_instruction.setText("Click move to move the shark or fish, or quit to quit the game")
-                            # Change move button label
-                            self.move_button.setLabel("Move Fish")
-                            # Return start
-                            return "start"
+                else:  # All tests passed
+                    self.fish_instruction.setText("Click move to move the shark or fish, or quit to quit the game")
+                    # Change move button label
+                    self.move_button.setLabel("Move Fish")
+                    # Return start
+                    return "start"
 
             # If quit button clicked then quit
             if self.quit_button.clicked(click):
