@@ -9,41 +9,41 @@ class Window:
     def __init__(self, width, height):
         "Initial setup of inputs and grid"
         self.win = GraphWin("Water World", width, height)
-        self.win.setCoords(-0.5, 11.5, 9.5, -0.5)  # Set coords to 10x10 grid + space
+        self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid + space
         # Offset coordinates to allow coordinates to be within boxes
         self.win.setBackground("blue")
         # Draw a rectangle at the bottom as a background
-        back = Rectangle(Point(-0.5, 9.5), Point(9.5, 11.5))
+        back = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
         background_color = "lightskyblue"
         back.setFill(background_color)
         back.setOutline(background_color)
         back.draw(self.win)
         # Draw grid
-        for row in range(9):  # Nine rows
-            for column in range(9):  # Nine columns
+        for row in range(10):  # Nine rows
+            for column in range(10):  # Nine columns
                 # Draw rectangles + offset to set pts within boxes
-                Rectangle(Point(row - 0.5, column - 0.5), Point(row + 1.5, column + 1.5)).draw(self.win)
+                Rectangle(Point(row + 0.5, column + 0.5), Point(row + 1.5, column + 1.5)).draw(self.win)
 
         # Draw fish inputs
-        self.fish_instruction = Text(Point(4.5, 11.2), "Enter comma separated coordinates 'x,y', click to enter each, and press start")
+        self.fish_instruction = Text(Point(5.25, 12.3), "Enter comma separated coordinates 'x,y', click to enter each, and press start")
         self.fish_instruction.draw(self.win)
-        self.label_fish1 = Text(Point(0.5, 10.2), "Fish1 Coords:")
+        self.label_fish1 = Text(Point(1.5, 12), "Fish1 Coords:")
         self.label_fish1.draw(self.win)
-        self.entry_fish1 = Entry(Point(0.5, 10.7), 10)
+        self.entry_fish1 = Entry(Point(1.5, 11.5), 10)
         self.entry_fish1.draw(self.win)
         self.win.getMouse()
         text_fish1_coord = self.entry_fish1.getText()
 
-        self.label_fish2 = Text(Point(2.5, 10.2), "Fish2 Coords:")
+        self.label_fish2 = Text(Point(3, 12), "Fish2 Coords:")
         self.label_fish2.draw(self.win)
-        self.entry_fish2 = Entry(Point(2.5, 10.7), 10)
+        self.entry_fish2 = Entry(Point(3, 11.5), 10)
         self.entry_fish2.draw(self.win)
         self.win.getMouse()
         text_fish2_coord = self.entry_fish2.getText()
 
-        self.label_fish3 = Text(Point(4.5, 10.2), "Fish3 Coords:")
+        self.label_fish3 = Text(Point(4.5, 12), "Fish3 Coords:")
         self.label_fish3.draw(self.win)
-        self.entry_fish3 = Entry(Point(4.5, 10.7), 10)
+        self.entry_fish3 = Entry(Point(4.5, 11.5), 10)
         self.entry_fish3.draw(self.win)
         self.win.getMouse()
         text_fish3_coord = self.entry_fish3.getText()
@@ -66,8 +66,8 @@ class Window:
         self.fish3_coord_y = int(fish3_coord[1])
 
         # Draw start/move and quit button
-        self.move_button = Button(Point(6.5, 10.7), 1.5, 0.5, "Start")
-        self.quit_button = Button(Point(8.5, 10.7), 1.5, 0.5, "Quit")
+        self.move_button = Button(Point(7, 11.7), 1.5, 0.5, "Start")
+        self.quit_button = Button(Point(9, 11.7), 1.5, 0.5, "Quit")
         self.move_button.activate()
         self.quit_button.activate()
         self.move_button.draw(self.win)
