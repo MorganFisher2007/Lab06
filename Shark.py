@@ -9,6 +9,7 @@ class Shark:
         self.ypos = ypos
         self.closefishx = -1
         self.closefishy = -1
+        self.image = "shark-facing-north-clear.png"
         
 
     def setsharkpos(self, xpos, ypos):
@@ -16,13 +17,13 @@ class Shark:
         self.xpos = xpos
         self.ypos = ypos
 
-    def getsharkpos(self):
-
-        return (self.xpos, self.ypos)
-        
+    def get_x_pos(self):
+        return self.xpos
+                
+    def get_y_pos(self):
+        return self.ypos
 
     def move(self, closefishx, closefishy):
-
         if closefishx - self.xpos == 1 and closefishy - self.ypos == 1:
             self.xpos += 1
             self.ypos += 1
@@ -95,7 +96,7 @@ class Shark:
         return (self.xpos, self.ypos)
 
         
-    def closestfish(self, fish1x, fish1y, fish2x, fish2y, fish3x, fish3y):
+    def closestfish(self, fish1x, fish1y, fish2x=99, fish2y=99, fish3x=99, fish3y=99):
 
         """helperformula1 = (fish1x - self.xpos)**2 + (fish1y - self.ypos)**2
         helperformula2 = (fish2x - self.xpos)**2 + (fish2y - self.ypos)**2
@@ -159,7 +160,7 @@ class Shark:
             closestfish = choice(randomfish)
 
         self.closefish = closestfish
-        return (closestfish, distfish1, distfish2, distfish3, statement)
+        return (closestfish)
         
 
     def sharkeat(self, fishx, fishy):
