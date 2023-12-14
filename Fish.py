@@ -9,7 +9,10 @@ class Fish():
         self.flee = False
         self.dead = False
         self.list = image_list
-
+    
+    def undraw(self):
+        self.image.undraw()
+    
     def set_direction(self, number, win):
         if number == 1:
             self.direction == 'N'
