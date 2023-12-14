@@ -72,21 +72,21 @@ class Fish():
 
         #if math.sqrt(dsx**2 + dsy**2) <= 3.1: 
             #self.flee = True
-        if dsx <= 3 and dsy <= 3:
+        if abs(dsx) <= 3 and abs(dsy) <= 3:
             self.flee = True
         
         if self.flee:
             if abs(dsx) == abs(dsy):
                 if random.randint(0, 1) == True:
                     if dsx > 0:
-                        self.direction == 'W'
+                        self.direction = 'W'
                     else:
-                        self.direction == 'E'
+                        self.direction = 'E'
                 else:
                     if dsy > 0:
-                        self.direction == 'N'
+                        self.direction = 'N'
                     else:
-                        self.direction == 'S'
+                        self.direction = 'S'
             elif abs(dsx) > abs(dsy):
                 if dsx > 0:
                     self.direction = 'W'
@@ -94,7 +94,7 @@ class Fish():
                     self.direction = 'E'
             else:
                 if dsy > 0:
-                    self.direction == 'N'
+                    self.direction = 'N'
                 else:
                     self.direction = 'S'
         if self.direction == 'N' and self.y == 1:
