@@ -1,6 +1,6 @@
 import math
 import random
-
+#FLEE MODE MAKE SO CAN TURN INTO WALL WHEN FACING DOWN IN ORDER TO GO TO OTHER SIDE, NOT JUST BOUNCE IF OPPOSITE DIRECTION.
 class Fish():
     def __init__(self, x, y, image_list):
         self.x = x
@@ -70,8 +70,12 @@ class Fish():
         dsx = sx-self.x
         dsy = sy-self.y
 
-        if math.sqrt(dsx**2 + dsy**2) <= 3: 
+        #if math.sqrt(dsx**2 + dsy**2) <= 3.1: 
+            #self.flee = True
+        if dsx <= 3 and dsy <= 3:
             self.flee = True
+        
+        if self.flee:
             if abs(dsx) == abs(dsy):
                 if random.randint(0, 1) == True:
                     if dsx > 0:
@@ -80,9 +84,9 @@ class Fish():
                         self.direction == 'E'
                 else:
                     if dsy > 0:
-                        self.direction == 'S'
-                    else:
                         self.direction == 'N'
+                    else:
+                        self.direction == 'S'
             elif abs(dsx) > abs(dsy):
                 if dsx > 0:
                     self.direction = 'W'
@@ -90,35 +94,34 @@ class Fish():
                     self.direction = 'E'
             else:
                 if dsy > 0:
-                    self.direction == 'S'
+                    self.direction == 'N'
                 else:
-                    self.direction = 'N'
-        
-        if self.direction == 'N' and self.y == 10:
-            if self.flee:
-                self.y = 0
-                self.flee = False
-                return
-            self.direction = 'S'
-            self.y = 9
-            return
-        elif self.direction == 'E' and self.x == 10:
-            if self.flee:
-                self.x = 0
-                self.flee = False
-                return
-            self.direction = 'W'
-            self.x = 9
-            return
-        elif self.direction == 'S' and self.y == 0:
+                    self.direction = 'S'
+        if self.direction == 'N' and self.y == 1:
             if self.flee:
                 self.y = 10
                 self.flee = False
                 return
-            self.direction = 'N'
+            self.direction = 'S'
             self.y = 1
             return
-        elif self.direction == 'W' and self.x == 0:
+        elif self.direction == 'E' and self.x == 10:
+            if self.flee:
+                self.x = 1
+                self.flee = False
+                return
+            self.direction = 'W'
+            self.x = 10
+            return
+        elif self.direction == 'S' and self.y == 10:
+            if self.flee:
+                self.y = 1
+                self.flee = False
+                return
+            self.direction = 'N'
+            self.y = 10
+            return
+        elif self.direction == 'W' and self.x == 1:
             if self.flee:
                 self.x = 10
                 self.flee = False
@@ -128,13 +131,17 @@ class Fish():
             return
         
         if self.direction == 'N':
-            self.y += 1
+            if [self.x, self.y-1] not in [[f1x, f1y], [f2x, f2y]]:
+                self.y -= 1
         elif self.direction == 'E':
-            self.x += 1
+            if [self.x+1, self.y] not in [[f1x, f1y], [f2x, f2y]]:
+                self.x += 1
         elif self.direction == 'S':
-            self.y -= 1
+            if [self.x, self.y+1] not in [[f1x, f1y], [f2x, f2y]]:
+                self.y += 1
         elif self.direction == 'W':
-            self.x -= 1
+            if [self.x-1, self.y] not in [[f1x, f1y], [f2x, f2y]]:
+                self.x -= 1
     
     def draw(self):
         pass
