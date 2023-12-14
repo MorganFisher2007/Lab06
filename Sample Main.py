@@ -4,14 +4,20 @@ from Fish import Fish
 from Shark import Shark
 from graphics import *
 
+counts = 0
 
 def main():
+    while True:
+        if counts >= 1:
+            window.redraw(700, 700)
+        else:
+            window = Window(700, 700)
 
-    window = Window(700, 700)
-
-    fish1coord = window.get_fish1_coord()
-    fish2coord = window.get_fish2_coord()
-    fish3coord = window.get_fish3_coord()
+        window.fish_input()
+        
+        fish1coord = window.get_fish1_coord()
+        fish2coord = window.get_fish2_coord()
+        fish3coord = window.get_fish3_coord()
 
     while window.check_fish_input(fish1coord, fish2coord, fish3coord) == False:    
         window.clean_fish_coords()
@@ -148,6 +154,12 @@ def main():
                 if not Fish3.test_dead():
                     Fish3.revive() # Need to code fish revive class method
 
-                window.toggle_move_label()
-
+                    window.restart_move()
+                    window.win.close()
+                    window.undraw()
+                    shark_image.undraw()
+                    Fish1_image.undraw()
+                    Fish2_image.undraw()
+                    Fish3_image.undraw()
+                    break
 main()
