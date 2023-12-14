@@ -10,6 +10,7 @@ class Shark:
         self.closefishx = -1
         self.closefishy = -1
         self.image = "shark-facing-north-clear.png"
+        self.recent_fish = []
         
 
     def setsharkpos(self, xpos, ypos):
@@ -45,29 +46,29 @@ class Shark:
         elif closefishy == self.ypos and closefishx - self.xpos == -1:
             self.xpos -= 1
 
-        elif closefishx - self.xpos >= 2 and closefishy - self.ypos == 1:
+        elif closefishx - self.xpos > 2 and closefishy - self.ypos == 1:
             self.xpos += 2
             self.ypos += 2
-        elif closefishx - self.xpos >= 2 and closefishy - self.ypos == -1:
+        elif closefishx - self.xpos > 2 and closefishy - self.ypos == -1:
             self.xpos += 2
             self.ypos -= 2
-        elif closefishx - self.xpos <= -2 and closefishy - self.ypos == 1:
+        elif closefishx - self.xpos < -2 and closefishy - self.ypos == 1:
             self.xpos -= 2
             self.ypos += 2
-        elif closefishx - self.xpos <= -2 and closefishy - self.ypos == -1:
+        elif closefishx - self.xpos < -2 and closefishy - self.ypos == -1:
             self.xpos -= 2
             self.ypos -= 2
             
-        elif closefishx - self.xpos == 1 and closefishy - self.ypos >= 2:
+        elif closefishx - self.xpos == 1 and closefishy - self.ypos > 2:
             self.xpos += 2
             self.ypos += 2
-        elif closefishx - self.xpos == -1 and closefishy - self.ypos >= 2:
+        elif closefishx - self.xpos == -1 and closefishy - self.ypos > 2:
             self.xpos -= 2
             self.ypos += 2
-        elif closefishx - self.xpos == 1 and closefishy - self.ypos <= -2:
+        elif closefishx - self.xpos == 1 and closefishy - self.ypos < -2:
             self.xpos += 2
             self.ypos -= 2
-        elif closefishx - self.xpos == -1 and closefishy - self.ypos <= -2:
+        elif closefishx - self.xpos == -1 and closefishy - self.ypos < -2:
             self.xpos -= 2
             self.ypos -= 2
             
@@ -93,14 +94,36 @@ class Shark:
         elif closefishy == self.ypos and closefishx - self.xpos <= -2:
             self.xpos -= 2
 
+        elif closefishx - self.xpos == 2 and closefishy - self.ypos == 1:
+            self.xpos += 2
+            self.ypos += 1
+        elif closefishx - self.xpos == 2 and closefishy - self.ypos == -1:
+            self.xpos += 2
+            self.ypos -= 1
+        elif closefishx - self.xpos == -2 and closefishy - self.ypos == 1:
+            self.xpos -= 2
+            self.ypos += 1
+        elif closefishx - self.xpos == -2 and closefishy - self.ypos == -1:
+            self.xpos -= 2
+            self.ypos -= 1
+        
+        elif closefishy - self.ypos == 2 and closefishx - self.xpos == 1:
+            self.ypos += 2
+            self.xpos += 1
+        elif closefishy - self.ypos == 2 and closefishx - self.xpos == -1:
+            self.ypos += 2
+            self.xpos -= 1
+        elif closefishy - self.ypos == -2 and closefishx - self.xpos == 1:
+            self.ypos -= 2
+            self.xpos += 1
+        elif closefishy - self.ypos == -2 and closefishx - self.xpos == -1:
+            self.ypos -= 2
+            self.xpos -= 1
+
         return (self.xpos, self.ypos)
 
         
     def closestfish(self, fish1x, fish1y, fish2x=99, fish2y=99, fish3x=99, fish3y=99):
-
-        """helperformula1 = (fish1x - self.xpos)**2 + (fish1y - self.ypos)**2
-        helperformula2 = (fish2x - self.xpos)**2 + (fish2y - self.ypos)**2
-        helperformula3 = (fish3x - self.xpos)**2 + (fish3y - self.ypos)**2"""
         
         distfish1 = sqrt(float(((fish1x - self.xpos)**2) + ((fish1y - self.ypos)**2)))
         distfish2 = sqrt(float(((fish2x - self.xpos)**2) + ((fish2y - self.ypos)**2)))
