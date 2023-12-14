@@ -13,18 +13,36 @@ class Window:
         # Offset coordinates to allow coordinates to be within boxes
         self.win.setBackground("blue")
         # Draw a rectangle at the bottom as a background
-        back = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
+        self.back = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
         background_color = "lightskyblue"
-        back.setFill(background_color)
-        back.setOutline(background_color)
-        back.draw(self.win)
+        self.back.setFill(background_color)
+        self.back.setOutline(background_color)
+        self.back.draw(self.win)
         # Draw grid
         for row in range(10):  # Nine rows
             for column in range(10):  # Nine columns
                 # Draw rectangles + offset to set pts within boxes
                 Rectangle(Point(row + 0.5, column + 0.5), Point(row + 1.5, column + 1.5)).draw(self.win)
 
-        # Draw fish inputs
+    def redraw(self, width, height):
+        "Initial setup of inputs and grid"
+        self.win = GraphWin("Water World", width, height)
+        self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid + space
+        # Offset coordinates to allow coordinates to be within boxes
+        self.win.setBackground("blue")
+        # Draw a rectangle at the bottom as a background
+        self.back = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
+        background_color = "lightskyblue"
+        self.back.setFill(background_color)
+        self.back.setOutline(background_color)
+        self.back.draw(self.win)
+        # Draw grid
+        for row in range(10):  # Nine rows
+            for column in range(10):  # Nine columns
+                # Draw rectangles + offset to set pts within boxes
+                Rectangle(Point(row + 0.5, column + 0.5), Point(row + 1.5, column + 1.5)).draw(self.win)
+        
+    def fish_input(self):
         self.fish_instruction = Text(Point(5.25, 12.3), "Enter comma separated coordinates 'x,y', click to enter each, and press start")
         self.fish_instruction.draw(self.win)
         self.label_fish1 = Text(Point(1.5, 12), "Fish1 Coords:")
@@ -32,26 +50,21 @@ class Window:
         self.entry_fish1 = Entry(Point(1.5, 11.5), 10)
         self.entry_fish1.draw(self.win)
         self.win.getMouse()
-        text_fish1_coord = self.entry_fish1.getText()
+        self.text_fish1_coord = self.entry_fish1.getText()
 
         self.label_fish2 = Text(Point(3, 12), "Fish2 Coords:")
         self.label_fish2.draw(self.win)
         self.entry_fish2 = Entry(Point(3, 11.5), 10)
         self.entry_fish2.draw(self.win)
         self.win.getMouse()
-        text_fish2_coord = self.entry_fish2.getText()
+        self.text_fish2_coord = self.entry_fish2.getText()
 
         self.label_fish3 = Text(Point(4.5, 12), "Fish3 Coords:")
         self.label_fish3.draw(self.win)
         self.entry_fish3 = Entry(Point(4.5, 11.5), 10)
         self.entry_fish3.draw(self.win)
         self.win.getMouse()
-        text_fish3_coord = self.entry_fish3.getText()
-        
-        # Set fish coord values
-        fish1_coord = text_fish1_coord.split(",")
-        fish2_coord = text_fish2_coord.split(",")
-        fish3_coord = text_fish3_coord.split(",")
+        self.text_fish3_coord = self.entry_fish3.getText()
 
         # Draw start/move and quit button
         self.move_button = Button(Point(7, 11.7), 1.5, 0.5, "Start")
@@ -60,7 +73,19 @@ class Window:
         self.quit_button.activate()
         self.move_button.draw(self.win)
         self.quit_button.draw(self.win)
-    
+
+    def undraw(self):
+        self.back.undraw()
+        self.fish_instruction.undraw()
+        self.label_fish1.undraw()
+        self.entry_fish1.undraw()
+        self.label_fish2.undraw()
+        self.entry_fish2.undraw()
+        self.label_fish3.undraw()
+        self.entry_fish3.undraw()
+        self.move_button.undraw()
+        self.quit_button.undraw()
+        
     def clean_fish_coords(self):
         # Set fish coord values
         fish1_coord = self.text_fish1_coord.split(",")
@@ -98,7 +123,16 @@ class Window:
         obj.move(final_pt.getX() - initial_pt.getX(), final_pt.getY() - initial_pt.getY())
         obj.set_pos(final_pt)
         return obj
-    
+
+    def toggle_move_label(self):
+        "Change move button label between move shark and fish"
+        if self.move_button.getLabel() == "Start":
+            self.move_button.setLabel("Move Fish")
+        elif self.move_button.getLabel() == "Move Shark":
+            self.move_button.setLabel("Move Fish")
+        elif self.move_button.getLabel() == "Move Fish":
+            self.move_button.setLabel("Move Shark")
+
     def check_fish_input(self, fish1, fish2, fish3):
     # Check if fish entry is valid
     # Code for if it is the first move (start move)
@@ -114,9 +148,15 @@ class Window:
                 # Append to invalid inputs
                 invalid_inputs.append(inpt + " (cannot input duplicate coords)")
             elif len(inpt) != 3:  # Check length is 3 for coord
-                error = True
-                # Append to invalid inputs
-                invalid_inputs.append(inpt + " (incorrect length)")
+                if len(inpt) == 4:
+                    if inpt[3] != "0":
+                        error = True
+                        # Append to invalid inputs
+                        invalid_inputs.append(inpt + " (incorrect length)")
+                elif len(inpt) > 3 or len(inpt) < 3:
+                    if len(inpt) != 4:
+                        error = True
+                        invalid_inputs.append(inpt + " (incorrect length)")
             elif not inpt[0].isdigit() or not inpt[2].isdigit():
                 # Check if x and y are numbers
                 error = True
@@ -153,6 +193,12 @@ class Window:
                 self.win.close()
                 quit()
 
+    def restart_move(self):
+        self.move_button.undraw()
+        self.move_button.setLabel("Start")
+        self.move_button.draw(self.win)
+        self.move_button.activate()
+
     def game_over(self, winner):
         "Prompt to play again"
         self.fish_instruction.setText(winner + " Enter comma separated coordinates 'x,y' and press start to try again.")
@@ -161,24 +207,6 @@ class Window:
         self.entry_fish1.setText("")
         self.entry_fish2.setText("")
         self.entry_fish3.setText("")
-
-    def toggle_move_label(self):
-        "Change move button label between move shark and fish"
-        if self.move_button.getLabel() == "Start":
-            self.move_button.setLabel("Move Fish")
-        elif self.move_button.getLabel() == "Move Shark":
-            self.move_button.setLabel("Move Fish")
-        elif self.move_button.getLabel() == "Move Fish":
-            self.move_button.setLabel("Move Shark")
-
-    def play_again_label(self):
-        "Add a play again button"
-        self.play_again_button = Button(Point(4.5, 5.5), 2, 1, "Play Again")
-        self.play_again_button.activate()
-        self.play_again_button.draw(self.win)
-        self.win.getMouse()
-        if self.play_again_button.clicked:
-            self.play = True
 
     def death_message(self, name):
         "Change text to a death message"
