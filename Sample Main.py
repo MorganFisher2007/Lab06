@@ -138,10 +138,10 @@ def main():
                 # game meets end conditions, reset
                 if stalemate or (Fish1.test_dead() and Fish2.test_dead() and Fish3.test_dead()) == True:
                     if stalemate:
-                        window.game_over("Stalemate.")
+                        window.game_over("Stalemate. Click anywhere to start a new game.")
                         stalemate = False
                     else:
-                        window.game_over("Shark wins.")
+                        window.game_over("Shark wins. Click anywhere to start a new game.")
     
                     turns = 0  # reset stalemate turn counter
     
@@ -153,7 +153,9 @@ def main():
     
                     if not Fish3.test_dead():
                         Fish3.revive() # Need to code fish revive class method
-    
+
+                    window.win.getMouse() # Pause to let user know window is boutta close
+                    
                     window.restart_move()
                     window.win.close()
                     window.undraw()
