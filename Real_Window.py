@@ -85,6 +85,7 @@ class Window:
         self.entry_fish3.undraw()
         self.move_button.undraw()
         self.quit_button.undraw()
+        self.play_again_button.undraw()
         
     def clean_fish_coords(self):
         # Set fish coord values
@@ -160,6 +161,10 @@ class Window:
                     if len(inpt) != 4 or len(inpt) != 5:
                         error = True
                         invalid_inputs.append(inpt + " (incorrect length)")
+            elif len(inpt) == 3:
+                if inpt[0:2] == "0," or inpt[1:3] == ",0":
+                        error = True
+                        invalid_inputs.append(inpt + " (no zeroes)")
             elif inpt == "7,2":
                 error = True
                 invalid_inputs.append(inpt + " (fish coords match shark)")                
@@ -198,7 +203,7 @@ class Window:
             # If quit button clicked then quit
             if self.quit_button.clicked(click):
                 self.win.close()
-                quit()
+                return "close"
 
     def restart_move(self):
         self.move_button.undraw()
@@ -208,12 +213,17 @@ class Window:
 
     def game_over(self, winner):
         "Prompt to play again"
-        self.fish_instruction.setText(winner + " Enter comma separated coordinates 'x,y' and press start to try again.")
+        self.fish_instruction.setText(winner)
         self.move_button.setLabel("Start")
         # Clear text boxes
         self.entry_fish1.setText("")
         self.entry_fish2.setText("")
         self.entry_fish3.setText("")
+
+    def again_button(self):
+        self.play_again_button = Button(Point(5.5, 7), 1.5, 0.5, "Play")
+        self.play_again_button.activate()
+        self.play_again_button.draw(self.win)
 
     def death_message(self, name):
         "Change text to a death message"
