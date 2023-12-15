@@ -153,11 +153,9 @@ class Window:
                         error = True
                         # Append to invalid inputs
                         invalid_inputs.append(inpt + " (incorrect length)")
-                elif len(inpt) == 5:
-                    if inpt != "10,10":
+                    if inpt[0:2] == "0," or inpt[2:4] == ",0":
                         error = True
-                        # Append to invalid inputs
-                        invalid_inputs.append(inpt + " (incorrect length)")
+                        invalid_inputs.append(inpt + " (no zeroes)")
                 elif len(inpt) > 3 or len(inpt) < 3:
                     if len(inpt) != 4 or len(inpt) != 5:
                         error = True
