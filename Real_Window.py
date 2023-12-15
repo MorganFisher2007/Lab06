@@ -149,20 +149,27 @@ class Window:
                 invalid_inputs.append(inpt + " (cannot input duplicate coords)")
             elif len(inpt) != 3:  # Check length is 3 for coord
                 if len(inpt) == 4:
-                    if inpt[3] != "0" and inpt[2] != "1":
+                    if inpt[2:4] != "10" and inpt[2] != ",":
+                        error = True
+                        # Append to invalid inputs
+                        invalid_inputs.append(inpt + " (incorrect length)")
+                elif len(inpt) == 5:
+                    if inpt != "10,10":
                         error = True
                         # Append to invalid inputs
                         invalid_inputs.append(inpt + " (incorrect length)")
                 elif len(inpt) > 3 or len(inpt) < 3:
-                    if len(inpt) != 4:
+                    if len(inpt) != 4 or len(inpt) != 5:
                         error = True
                         invalid_inputs.append(inpt + " (incorrect length)")
+            elif inpt == "7,2":
+                error = True
+                invalid_inputs.append(inpt + " (fish coords match shark)")                
             elif not inpt[0].isdigit() or not inpt[2].isdigit():
                 # Check if x and y are numbers
                 error = True
                 invalid_inputs.append(inpt + " (is not a number)")
-            else:  # Valid input
-                scanned_inputs.append(inpt)
+            scanned_inputs.append(inpt)
 
         if error:  # If invalid, change instruction text
             self.fish_instruction.setText("Invalid Input: " + str(invalid_inputs) + " Click anywhere to restart game")
