@@ -16,6 +16,7 @@ def main():
             window.redraw(700, 700)
         else:
             window = Window(700, 700)
+            game_quit = False
 
         window.fish_input()
         
@@ -23,7 +24,7 @@ def main():
         fish2coord = window.get_fish2_coord()
         fish3coord = window.get_fish3_coord()
 
-        if window.check_fish_input(fish1coord, fish2coord, fish3coord) == False:    
+        if window.check_fish_input(fish1coord, fish2coord, fish3coord) == False and game_quit == False:    
             window.clean_fish_coords()
         
             stalemate = False  # initialize stalemate variable
@@ -122,6 +123,10 @@ def main():
                         stalemate = True
                 
                     window.toggle_move_label()
+
+                elif value == "quit":
+                    window.win.close()
+                    quit()
     
                 sharkpos = Point(shark.get_x_pos(), shark.get_y_pos())
                 Fish1pos = Point(Fish1.get_x_pos(), Fish1.get_y_pos())
@@ -160,14 +165,21 @@ def main():
                     if not Fish3.test_dead():
                         Fish3.revive() # Need to code fish revive class method
 
-                    window.win.getMouse() # Pause to let user know window is boutta close
-                    
-                    window.restart_move()
-                    window.win.close()
-                    window.undraw()
-                    shark_image.undraw()
-                    Fish1_image.undraw()
-                    Fish2_image.undraw()
-                    Fish3_image.undraw()
+                    while True:
+                        window.again_button()
+                        pt = window.win.getMouse() # Pause to let user know window is boutta close
+                        if window.play_again_button.clicked(pt):
+                            window.restart_move()
+                            window.win.close()
+                            window.undraw()
+                            shark_image.undraw()
+                            Fish1_image.undraw()
+                            Fish2_image.undraw()
+                            Fish3_image.undraw()
+                            break
+                        elif window.quit_button.clicked(pt):
+                            window.win.close()
+                            quit()
+                            break
                     break
 main()
