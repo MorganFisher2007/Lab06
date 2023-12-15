@@ -7,7 +7,11 @@ from graphics import *
 counts = 0
 
 def main():
+
     while True:
+        
+        shark_stomachache_level = 0 # stalemate counter
+        
         if counts >= 1:
             window.redraw(700, 700)
         else:
@@ -109,10 +113,12 @@ def main():
                     shark_image.undraw()
                     shark_image = Image(Point(shark.get_x_pos(), shark.get_y_pos()), shark.image)
                     shark_image.draw(window.win)
-                    # everytime shark moves, count it as a turn
-                    turns += 1
+
+                    # everytime shark eats, start counting turns
+                    if not shark.sharkeat(Fish1.get_x_pos(), Fish1.get_y_pos()) or shark.sharkeat(Fish2.get_x_pos(), Fish2.get_y_pos()) or shark.sharkeat(Fish3.get_x_pos(), Fish3.get_y_pos()):
+                        shark_stomachache_level += 1
     
-                    if turns > 20:  # at 20 turns
+                    if shark_stomachache_level > 20:  # at 20 turns
                         stalemate = True
                 
                     window.toggle_move_label()
@@ -138,10 +144,10 @@ def main():
                 # game meets end conditions, reset
                 if stalemate or (Fish1.test_dead() and Fish2.test_dead() and Fish3.test_dead()) == True:
                     if stalemate:
-                        window.game_over("Stalemate. Click anywhere to start a new game.")
+                        window.game_over("Stalemate -- The Shark has gone too long without food, and has perished from malnutrition. Click anywhere to start a new game.")
                         stalemate = False
                     else:
-                        window.game_over("Shark wins. Click anywhere to start a new game.")
+                        window.game_over("Shark wins. Go Shark! Click anywhere to start a new game.")
     
                     turns = 0  # reset stalemate turn counter
     
