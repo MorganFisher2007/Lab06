@@ -144,7 +144,7 @@ def main():
                 # game meets end conditions, reset
                 if stalemate or (Fish1.test_dead() and Fish2.test_dead() and Fish3.test_dead()) == True:
                     if stalemate:
-                        window.game_over("Stalemate -- The Shark has gone too long without food, and has perished from malnutrition. Click anywhere to start a new game.")
+                        window.game_over("Stalemate -- Shark perished from malnutrition. Click anywhere to start a new game.")
                         stalemate = False
                     else:
                         window.game_over("Shark wins. Go Shark! Click anywhere to start a new game.")
