@@ -149,7 +149,7 @@ class Window:
                 invalid_inputs.append(inpt + " (cannot input duplicate coords)")
             elif len(inpt) != 3:  # Check length is 3 for coord
                 if len(inpt) == 4:
-                    if inpt[3] != "0":
+                    if inpt[3] != "0" and inpt[2] != "1":
                         error = True
                         # Append to invalid inputs
                         invalid_inputs.append(inpt + " (incorrect length)")
@@ -165,7 +165,9 @@ class Window:
                 scanned_inputs.append(inpt)
 
         if error:  # If invalid, change instruction text
-            self.fish_instruction.setText("Invalid Input: " + str(invalid_inputs) + " Restart game with better inputs")
+            self.fish_instruction.setText("Invalid Input: " + str(invalid_inputs) + " Click anywhere to restart game")
+            self.win.getMouse()
+            self.win.close()
             return True
         else:
             return False
