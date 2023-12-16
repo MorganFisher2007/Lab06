@@ -11,10 +11,10 @@ class Window:
         self.win = GraphWin("Water World", width, height)
         self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid
         # Offset coordinates to allow coordinates to be within boxes
-        self.win.setBackground("blue")
+        self.win.setBackground("dodger blue")
         # Draw a rectangle at the bottom as a background
         self.background = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
-        background_color = "lightblue"
+        background_color = "wheat"
         self.background.setFill(background_color)
         self.background.setOutline(background_color)
         self.background.draw(self.win)
@@ -29,10 +29,10 @@ class Window:
         self.win = GraphWin("Water World", width, height)
         self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid + space
         # Offset coordinates to allow coordinates to be within boxes
-        self.win.setBackground("blue")
+        self.win.setBackground("dodger blue")
         # Draw a rectangle at the bottom as a background
         self.background = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
-        background_color = "lightblue"
+        background_color = "wheat"
         self.background.setFill(background_color)
         self.background.setOutline(background_color)
         self.background.draw(self.win)
