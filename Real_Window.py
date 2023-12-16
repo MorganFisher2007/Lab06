@@ -150,25 +150,33 @@ class Window:
                 invalid_inputs.append(inpt + " (cannot input duplicate coords)")
             elif len(inpt) != 3:  # Check length is 3 for coord
                 if len(inpt) == 4:
-                    if inpt[2:4] != "10" and inpt[2] != ",":
+                    if inpt[1] != "," and inpt[2] != ",": # Check for commas, else raise error
                         error = True
+                        invalid_inputs.append(inpt + " (commas)")
+                    elif inpt[2:4] != "10":
+                        error = True
+                        invalid_inputs.append(inpt + " (incorrect range)")
                         # Append to invalid inputs
-                        invalid_inputs.append(inpt + " (incorrect length)")
-                    if inpt[0:2] == "0," or inpt[2:4] == ",0":
+                    elif inpt[0:2] != "10":
+                        invalid_inputs.append(inpt + " (incorrect range)")
+                    elif inpt[0:2] == "0," or inpt[2:4] == ",0":
                         error = True
                         invalid_inputs.append(inpt + " (no zeroes)")
                 elif len(inpt) > 3 or len(inpt) < 3:
-                    if inpt != "10,10":
-                        if len(inpt) != 4 or len(inpt) != 5:
-                            error = True
-                            invalid_inputs.append(inpt + " (incorrect length)")
+                    if len(inpt) != 4 or len(inpt) != 5:
+                        error = True
+                        invalid_inputs.append(inpt + " (incorrect length)")
             elif len(inpt) == 3:
                 if inpt[0:2] == "0," or inpt[1:3] == ",0":
                         error = True
                         invalid_inputs.append(inpt + " (no zeroes)")
-            elif inpt == "7,2":
-                error = True
-                invalid_inputs.append(inpt + " (fish coords match shark)")                
+                elif inpt == "7,2": # Check it's not matching shark
+                    error = True
+                    invalid_inputs.append(inpt + " (fish coords match shark)")
+                elif inpt[1] != ",": # Check it's m,n and not mnm
+                    error = True
+                    invalid_inputs.append(inpt + " (commas)")
+                
             elif not inpt[0].isdigit() or not inpt[2].isdigit():
                 # Check if x and y are numbers
                 error = True
