@@ -162,9 +162,10 @@ class Window:
                         error = True
                         invalid_inputs.append(inpt + " (no zeroes)")
                 elif len(inpt) > 3 or len(inpt) < 3: # Check length is greater or less than 3 -- not (m,n)
-                    if len(inpt) != 4 or len(inpt) != 5: # Check length is not 4 or 5 (10,10) or (10,0)
-                        error = True
-                        invalid_inputs.append(inpt + " (incorrect length)")
+                    if inpt != "10,10":
+                        if len(inpt) != 4 or len(inpt) != 5:
+                            error = True
+                            invalid_inputs.append(inpt + " (incorrect length)")
             elif len(inpt) == 3: # Check length is three
                 if inpt[0:2] == "0," or inpt[1:3] == ",0": # Check for zeroes
                         error = True
