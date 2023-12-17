@@ -48,28 +48,36 @@ class Shark:
 
         elif closefishx - self.xpos > 2 and closefishy - self.ypos == 1:
             self.xpos += 2
-            self.ypos += 2
+            if self.ypos < 9:
+                self.ypos += 2
         elif closefishx - self.xpos > 2 and closefishy - self.ypos == -1:
             self.xpos += 2
-            self.ypos -= 2
+            if self.ypos > 2:
+                self.ypos -= 2
         elif closefishx - self.xpos < -2 and closefishy - self.ypos == 1:
             self.xpos -= 2
-            self.ypos += 2
+            if self.ypos < 9:
+                self.ypos += 2
         elif closefishx - self.xpos < -2 and closefishy - self.ypos == -1:
             self.xpos -= 2
-            self.ypos -= 2
+            if self.ypos > 2:
+                self.ypos -= 2
             
         elif closefishx - self.xpos == 1 and closefishy - self.ypos > 2:
-            self.xpos += 2
+            if self.xpos < 9:
+                self.xpos += 2
             self.ypos += 2
         elif closefishx - self.xpos == -1 and closefishy - self.ypos > 2:
-            self.xpos -= 2
+            if self.xpos > 2:
+                self.xpos -= 2
             self.ypos += 2
         elif closefishx - self.xpos == 1 and closefishy - self.ypos < -2:
-            self.xpos += 2
+            if self.xpos < 9:
+                self.xpos += 2
             self.ypos -= 2
         elif closefishx - self.xpos == -1 and closefishy - self.ypos < -2:
-            self.xpos -= 2
+            if self.xpos > 2:
+                self.xpos -= 2
             self.ypos -= 2
             
 
