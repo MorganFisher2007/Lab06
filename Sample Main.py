@@ -125,7 +125,7 @@ def main():
                     if not shark.sharkeat(Fish1.get_x_pos(), Fish1.get_y_pos()) or shark.sharkeat(Fish2.get_x_pos(), Fish2.get_y_pos()) or shark.sharkeat(Fish3.get_x_pos(), Fish3.get_y_pos()):
                         shark_stomachache_level += 1
     
-                    if shark_stomachache_level > 10:  # At 10 turns without eaten fish, declare stalemate
+                    if shark_stomachache_level > 20:  # At 10 turns without eaten fish, declare stalemate
                         stalemate = True
                 
                     window.switch_move_label()
