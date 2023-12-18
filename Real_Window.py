@@ -176,11 +176,10 @@ class Window:
                 elif inpt[1] != ",": # Check it's m,n and not mnm
                     error = True
                     invalid_inputs.append(inpt + " (commas)")
-                
-            elif not inpt[0].isdigit() or not inpt[2].isdigit():
-                # Check if x and y are numbers
-                error = True
-                invalid_inputs.append(inpt + " (is not a number)")
+                elif not inpt[0].isdigit() or not inpt[2].isdigit() or inpt[1] != ',':
+                    # Check if x and y are numbers and separated by a comma
+                    error = True
+                    invalid_inputs.append(inpt + " (is not a valid coordinate)")
             scanned_inputs.append(inpt)
 
         if error:  # If invalid, change instruction text
