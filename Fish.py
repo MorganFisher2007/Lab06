@@ -1,15 +1,14 @@
-import math
 import random
-#FLEE MODE MAKE SO CAN TURN INTO WALL WHEN FACING DOWN IN ORDER TO GO TO OTHER SIDE, NOT JUST BOUNCE IF OPPOSITE DIRECTION.
+
 class Fish():
     def __init__(self, x, y, image_list):
         self.x = x
         self.y = y
-        self.direction = random.choice(['N', 'S', 'E', 'W'])
+        self.direction = random.choice(['N', 'S', 'E', 'W']) # random starting direction
         self.flee = False
         self.dead = False
         self.list = image_list
-    
+
     def undraw(self):
         self.image.undraw()
     
@@ -39,7 +38,7 @@ class Fish():
     def get_y_pos(self):
         return self.y
 
-    def update_image(self):
+    def update_image(self): # assign image from list based on direction & flee mode
         if self.direction == 'N':
             if self.flee == False:
                 self.image = self.list[5]
@@ -70,17 +69,16 @@ class Fish():
             self.die()
             return
         
+        # x and y components of distance between fish and shark
         dsx = sx-self.x
         dsy = sy-self.y
 
-        #if math.sqrt(dsx**2 + dsy**2) <= 3.1: 
-            #self.flee = True
         if abs(dsx) <= 3 and abs(dsy) <= 3:
-            self.flee = True
+            self.flee = True # fish enters flee mode when within 4x4 box centered around shark
         
         if self.flee:
             if abs(dsx) == abs(dsy):
-                if random.randint(0, 1) == True:
+                if random.randint(0, 1) == True: # random choice of direction when distance is equal
                     if dsx > 0:
                         self.direction = 'W'
                     else:
@@ -90,7 +88,7 @@ class Fish():
                         self.direction = 'N'
                     else:
                         self.direction = 'S'
-            elif abs(dsx) > abs(dsy):
+            elif abs(dsx) > abs(dsy): # continue case handling to determine direction
                 if dsx > 0:
                     self.direction = 'W'
                 else:
@@ -100,40 +98,43 @@ class Fish():
                     self.direction = 'N'
                 else:
                     self.direction = 'S'
+
+        # now that direction has been established, fish will attempt to move while also handling flee
         if self.direction == 'N' and self.y == 1:
             if self.flee:
-                self.y = 10
-                self.flee = False
-                return
-            self.direction = 'S'
-            self.y = 1
+                if [self.x, 10] not in [[f1x, f1y], [f2x, f2y]]: # make sure space not occupied
+                    self.y = 10
+                    self.flee = False
+            else:
+                self.direction = 'S' # turns around if facing wall and not in flee mode
             return
-        elif self.direction == 'E' and self.x == 10:
+        elif self.direction == 'E' and self.x == 10: 
             if self.flee:
-                self.x = 1
-                self.flee = False
-                return
-            self.direction = 'W'
-            self.x = 10
+                if [1, self.y] not in [[f1x, f1y], [f2x, f2y]]:
+                    self.x = 1
+                    self.flee = False
+            else:
+                self.direction = 'W'
             return
         elif self.direction == 'S' and self.y == 10:
             if self.flee:
-                self.y = 1
-                self.flee = False
-                return
-            self.direction = 'N'
-            self.y = 10
+                if [self.x, 1] not in [[f1x, f1y], [f2x, f2y]]:
+                    self.y = 1
+                    self.flee = False
+            else:
+                self.direction = 'N'
             return
         elif self.direction == 'W' and self.x == 1:
             if self.flee:
-                self.x = 10
-                self.flee = False
-                return
-            self.direction = 'E'
-            self.x = 1
+                if [10, self.y] not in [[f1x, f1y], [f2x, f2y]]:
+                    self.x = 10
+                    self.flee = False
+            else:
+                self.direction = 'E'
             return
-        
-        if self.direction == 'N':
+
+        # move forward in direction "default move"
+        if self.direction == 'N': 
             if [self.x, self.y-1] not in [[f1x, f1y], [f2x, f2y]]:
                 self.y -= 1
         elif self.direction == 'E':
@@ -145,6 +146,3 @@ class Fish():
         elif self.direction == 'W':
             if [self.x-1, self.y] not in [[f1x, f1y], [f2x, f2y]]:
                 self.x -= 1
-    
-    def draw(self):
-        pass
