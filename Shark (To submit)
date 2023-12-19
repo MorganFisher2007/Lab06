@@ -1,0 +1,232 @@
+#
+# Nicholas Wen
+#
+# This program contains all the information needed for the shark which has the following modules:
+#   setsharkpos, getsharkpos, move, closest fish, and sharkeat
+#
+from random import *
+from math import *
+
+# Initializes the Shark Class
+class Shark:
+    """A Class that represents a Shark """
+    
+    def __init__(self, xpos, ypos):
+
+        # Sets the following variables
+        self.xpos = xpos
+        self.ypos = ypos
+        self.closefishx = -1
+        self.closefishy = -1
+        self.image = "shark-facing-north-clear.png"
+        self.recent_fish = []
+        
+    def setsharkpos(self, xpos, ypos):
+
+        # Changes the x and y-coordinates to whatever coordinates were given
+        self.xpos = xpos
+        self.ypos = ypos
+
+    def get_x_pos(self):
+
+        # Returns the current x-coordinate of the shark
+        return self.xpos
+                
+    def get_y_pos(self):
+
+        # Returns the current y-coordinate of the shark
+        return self.ypos
+
+    def move(self, closefishx, closefishy):
+
+        # Changes the shark coordinates based on the distance of the fish
+        #  by checking to see how far away the closest fish is
+        if closefishx - self.xpos == 1 and closefishy - self.ypos == 1:
+            self.xpos += 1
+            self.ypos += 1
+        elif closefishx - self.xpos == -1 and closefishy - self.ypos == -1:
+            self.xpos -= 1
+            self.ypos -= 1
+        elif closefishx - self.xpos == 1 and closefishy - self.ypos == -1:
+            self.xpos += 1
+            self.ypos -= 1
+        elif closefishx - self.xpos == -1 and closefishy - self.ypos == 1:
+            self.xpos -= 1
+            self.ypos += 1
+        elif closefishx == self.xpos and closefishy - self.ypos == 1:
+            self.ypos += 1
+        elif closefishx == self.xpos and closefishy - self.ypos == -1:
+            self.ypos -= 1
+        elif closefishy == self.ypos and closefishx - self.xpos == 1:
+            self.xpos += 1
+        elif closefishy == self.ypos and closefishx - self.xpos == -1:
+            self.xpos -= 1
+
+        elif closefishx - self.xpos > 2 and closefishy - self.ypos == 1:
+            self.xpos += 2
+            if self.ypos < 9:
+                self.ypos += 2
+        elif closefishx - self.xpos > 2 and closefishy - self.ypos == -1:
+            self.xpos += 2
+            if self.ypos > 2:
+                self.ypos -= 2
+        elif closefishx - self.xpos < -2 and closefishy - self.ypos == 1:
+            self.xpos -= 2
+            if self.ypos < 9:
+                self.ypos += 2
+        elif closefishx - self.xpos < -2 and closefishy - self.ypos == -1:
+            self.xpos -= 2
+            if self.ypos > 2:
+                self.ypos -= 2
+            
+        elif closefishx - self.xpos == 1 and closefishy - self.ypos > 2:
+            if self.xpos < 9:
+                self.xpos += 2
+            self.ypos += 2
+        elif closefishx - self.xpos == -1 and closefishy - self.ypos > 2:
+            if self.xpos > 2:
+                self.xpos -= 2
+            self.ypos += 2
+        elif closefishx - self.xpos == 1 and closefishy - self.ypos < -2:
+            if self.xpos < 9:
+                self.xpos += 2
+            self.ypos -= 2
+        elif closefishx - self.xpos == -1 and closefishy - self.ypos < -2:
+            if self.xpos > 2:
+                self.xpos -= 2
+            self.ypos -= 2
+            
+
+        elif closefishx - self.xpos >= 2 and closefishy - self.ypos >= 2:
+            self.xpos += 2
+            self.ypos += 2
+        elif closefishx - self.xpos <= -2 and closefishy - self.ypos <= -2:
+            self.xpos -= 2
+            self.ypos -= 2
+        elif closefishx - self.xpos >= 2 and closefishy - self.ypos <= -2:
+            self.xpos += 2
+            self.ypos -= 2
+        elif closefishx - self.xpos <= -2 and closefishy - self.ypos >= 2:
+            self.xpos -= 2
+            self.ypos += 2
+        elif closefishx == self.xpos and closefishy - self.ypos >= 2:
+            self.ypos += 2
+        elif closefishx == self.xpos and closefishy - self.ypos <= -2:
+            self.ypos -= 2
+        elif closefishy == self.ypos and closefishx - self.xpos >= 2:
+            self.xpos += 2
+        elif closefishy == self.ypos and closefishx - self.xpos <= -2:
+            self.xpos -= 2
+
+        elif closefishx - self.xpos == 2 and closefishy - self.ypos == 1:
+            self.xpos += 2
+            self.ypos += 1
+        elif closefishx - self.xpos == 2 and closefishy - self.ypos == -1:
+            self.xpos += 2
+            self.ypos -= 1
+        elif closefishx - self.xpos == -2 and closefishy - self.ypos == 1:
+            self.xpos -= 2
+            self.ypos += 1
+        elif closefishx - self.xpos == -2 and closefishy - self.ypos == -1:
+            self.xpos -= 2
+            self.ypos -= 1
+        
+        elif closefishy - self.ypos == 2 and closefishx - self.xpos == 1:
+            self.ypos += 2
+            self.xpos += 1
+        elif closefishy - self.ypos == 2 and closefishx - self.xpos == -1:
+            self.ypos += 2
+            self.xpos -= 1
+        elif closefishy - self.ypos == -2 and closefishx - self.xpos == 1:
+            self.ypos -= 2
+            self.xpos += 1
+        elif closefishy - self.ypos == -2 and closefishx - self.xpos == -1:
+            self.ypos -= 2
+            self.xpos -= 1
+
+        # Returns the new x and y-coordinates
+        return (self.xpos, self.ypos)
+        
+    def closestfish(self, fish1x, fish1y, fish2x=99, fish2y=99, fish3x=99, fish3y=99):
+
+        # Uses the distance formula to get the distance between the fish coordinates
+        #  and the shark coordinates
+        distfish1 = sqrt(float(((fish1x - self.xpos)**2) + ((fish1y - self.ypos)**2)))
+        distfish2 = sqrt(float(((fish2x - self.xpos)**2) + ((fish2y - self.ypos)**2)))
+        distfish3 = sqrt(float(((fish3x - self.xpos)**2) + ((fish3y - self.ypos)**2)))
+
+        # Creates a new list
+        randomfish = []
+
+        # Checks each case to see which fish is the closest
+        if distfish1 < distfish2 and distfish1 < distfish3:
+            closestfish = (fish1x, fish1y)
+        
+        elif distfish2 < distfish1 and distfish2 < distfish3:
+            closestfish = (fish2x, fish2y)
+            
+        elif distfish3 < distfish1 and distfish3 < distfish2:
+            closestfish = (fish3x, fish3y)
+
+        elif distfish1 == distfish2 and distfish1 < distfish3:
+            closestfish1 = (fish1x, fish1y)
+            closestfish2 = (fish2x, fish2y)
+
+            # Adds the coordinates of the 2 fish to the list
+            randomfish.append(closestfish1)
+            randomfish.append(closestfish2)
+                               
+            closestfish = choice(randomfish)
+
+        elif distfish1 == distfish3 and distfish1 < distfish2:
+            closestfish1 = (fish1x, fish1y)
+            closestfish2 = (fish3x, fish3y)
+
+            randomfish.append(closestfish1)
+            randomfish.append(closestfish2)
+                               
+            closestfish = choice(randomfish)
+
+        elif distfish2 == distfish3 and distfish2 < distfish1:
+            closestfish1 = (fish2x, fish2y)
+            closestfish2 = (fish3x, fish3y)
+
+            # Adds the coordinates of the 2 fish to the list
+            randomfish.append(closestfish1)
+            randomfish.append(closestfish2)
+                               
+            closestfish = choice(randomfish)
+
+        elif distfish1 == distfish2 == distfish3:
+            closestfish1 = (fish1x, fish1y)
+            closestfish2 = (fish2x, fish2y)
+            closestfish3 = (fish3x, fish3y)
+
+            # Adds the coordinates of the 3 fish to the list
+            randomfish.append(closestfish1)
+            randomfish.append(closestfish2)
+            randomfish.append(closestfish3)
+
+            # Picks a random fish from the list                   
+            closestfish = choice(randomfish)
+
+        self.closefish = closestfish
+
+        # Returns the coordinates of the closest fish
+        return (closestfish)
+        
+
+    def sharkeat(self, fishx, fishy):
+
+        # Checks if the shark x and y-coordinates and the fish x and y-coordinates
+        #  are equal
+        
+        if self.xpos == fishx and self.ypos == fishy:
+
+            # Returns True
+            return (True)
+        
+        else:
+
+            # Returns False
+            return (False)
