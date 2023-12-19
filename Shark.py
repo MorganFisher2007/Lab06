@@ -2,9 +2,7 @@ from random import *
 from math import *
 
 class Shark:
-
     def __init__(self, xpos, ypos):
-
         self.xpos = xpos
         self.ypos = ypos
         self.closefishx = -1
@@ -12,9 +10,7 @@ class Shark:
         self.image = "shark-facing-north-clear.png"
         self.recent_fish = []
         
-
     def setsharkpos(self, xpos, ypos):
-
         self.xpos = xpos
         self.ypos = ypos
 
@@ -129,10 +125,8 @@ class Shark:
             self.xpos -= 1
 
         return (self.xpos, self.ypos)
-
         
     def closestfish(self, fish1x, fish1y, fish2x=99, fish2y=99, fish3x=99, fish3y=99):
-        
         distfish1 = sqrt(float(((fish1x - self.xpos)**2) + ((fish1y - self.ypos)**2)))
         distfish2 = sqrt(float(((fish2x - self.xpos)**2) + ((fish2y - self.ypos)**2)))
         distfish3 = sqrt(float(((fish3x - self.xpos)**2) + ((fish3y - self.ypos)**2)))
@@ -149,7 +143,6 @@ class Shark:
             closestfish = (fish3x, fish3y)
 
         elif distfish1 == distfish2 and distfish1 < distfish3:
-
             closestfish1 = (fish1x, fish1y)
             closestfish2 = (fish2x, fish2y)
 
@@ -159,7 +152,6 @@ class Shark:
             closestfish = choice(randomfish)
 
         elif distfish1 == distfish3 and distfish1 < distfish2:
-
             closestfish1 = (fish1x, fish1y)
             closestfish2 = (fish3x, fish3y)
 
@@ -169,7 +161,6 @@ class Shark:
             closestfish = choice(randomfish)
 
         elif distfish2 == distfish3 and distfish2 < distfish1:
-
             closestfish1 = (fish2x, fish2y)
             closestfish2 = (fish3x, fish3y)
 
@@ -179,7 +170,6 @@ class Shark:
             closestfish = choice(randomfish)
 
         elif distfish1 == distfish2 == distfish3:
-
             closestfish1 = (fish1x, fish1y)
             closestfish2 = (fish2x, fish2y)
             closestfish3 = (fish3x, fish3y)
@@ -195,7 +185,6 @@ class Shark:
         
 
     def sharkeat(self, fishx, fishy):
-
         if self.xpos == fishx and self.ypos == fishy:
             return (True)
         else:
