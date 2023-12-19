@@ -7,16 +7,13 @@ import random
 class Window:
     "Handles the drawing and redrawing of the grid"
     def __init__(self, width, height):
-        "Initial setup of inputs and grid"
+        "Draw background and grid"
         self.win = GraphWin("Water World", width, height)
         self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid
-        # Offset coordinates to allow coordinates to be within boxes
         self.win.setBackground("dodger blue")
         # Draw a rectangle at the bottom as a background
         self.background = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
-        background_color = "wheat"
-        self.background.setFill(background_color)
-        self.background.setOutline(background_color)
+        self.background.setFill("wheat")
         self.background.draw(self.win)
         # Draw grid
         for row in range(10):  # Nine rows
@@ -25,16 +22,12 @@ class Window:
                 Rectangle(Point(row + 0.5, column + 0.5), Point(row + 1.5, column + 1.5)).draw(self.win)
 
     def redraw(self, width, height):
-        "Essentially draws a new window -- second initialization"
         self.win = GraphWin("Water World", width, height)
-        self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid + space
-        # Offset coordinates to allow coordinates to be within boxes
+        self.win.setCoords(0.5, 12.5, 10.5, 0.5)  # Set coords to 10x10 grid
         self.win.setBackground("dodger blue")
         # Draw a rectangle at the bottom as a background
         self.background = Rectangle(Point(0.5, 12.5), Point(10.5, 10.5))
-        background_color = "wheat"
-        self.background.setFill(background_color)
-        self.background.setOutline(background_color)
+        self.background.setFill("wheat")
         self.background.draw(self.win)
         # Draw grid
         for row in range(10):  # Nine rows
@@ -233,6 +226,6 @@ class Window:
         self.play_again_button.activate()
         self.play_again_button.draw(self.win)
 
-    def death_message(self, name):
-        "Change text to a death message so user knows what fish died"
+    def message(self, name):
+        "Change instruction to message so user knows what fish died"
         self.fish_instruction.setText(name + " just died")
