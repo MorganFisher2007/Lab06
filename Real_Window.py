@@ -145,12 +145,10 @@ class Window:
                     if inpt[1] != "," and inpt[2] != ",": # Check for commas, else raise error
                         error = True
                         invalid_inputs.append(inpt + " (commas)")
-                    elif inpt[2:4] != "10": # Check y range is restricted to 10 (0,10) vs (0,11)
+                    elif inpt[2:4] != "10" and inpt[0:2] != "10": # Check y range is restricted to 10 (0,10) vs (0,11)
                         error = True
                         invalid_inputs.append(inpt + " (incorrect range)")
                         # Append to invalid inputs
-                    elif inpt[0:2] != "10": # Check x range is restricted to 10 (10,0) vs (11,0)
-                        invalid_inputs.append(inpt + " (incorrect range)")
                     elif inpt[0:2] == "0," or inpt[2:4] == ",0": # Check for zeroes (not in range)
                         error = True
                         invalid_inputs.append(inpt + " (no zeroes)")
