@@ -143,15 +143,15 @@ def main():
                 if Fish1.test_dead() == False and shark.get_x_pos() == Fish1.get_x_pos() and shark.get_y_pos() == Fish1.get_y_pos(): # Conditions for fish to be dead are met
                     Fish1.die() # Fish officially dies
                     Fish1_image.undraw() # No more image
-                    window.death_message("Fish 1")  # Display that fish is dead
+                    window.message("Fish 1")  # Display that fish is dead
                 elif Fish2.test_dead() == False and shark.get_x_pos() == Fish2.get_x_pos() and shark.get_y_pos() == Fish2.get_y_pos():
                     Fish2.die()
                     Fish2_image.undraw()
-                    window.death_message("Fish 2")
+                    window.message("Fish 2")
                 elif Fish3.test_dead() == False and shark.get_x_pos() == Fish3.get_x_pos() and shark.get_y_pos() == Fish3.get_y_pos():
                     Fish3.die()
                     Fish3_image.undraw()
-                    window.death_message("Fish 3")
+                    window.message("Fish 3")
     
                 # Check if game end conditions are met, reset the game
                 if stalemate or (Fish1.test_dead() and Fish2.test_dead() and Fish3.test_dead()) == True:
